@@ -90,5 +90,5 @@ SIMPLE_JWT = {
 }
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # your React port
+    "https://hemo-link13.netlify.app",  # your React port
 ]
