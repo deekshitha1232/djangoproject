@@ -160,15 +160,15 @@ class PatientAdminViewSet(viewsets.ModelViewSet):
         if patient.status != status_value:
             if status_value == "Accepted":
                 stock, _ = BloodStock.objects.get_or_create(blood_group=patient.blood_group)
-                if stock.units >= patient.quantity:
-                    stock.units -= patient.quantity
+                if stock.units >= patient.required_quantity:
+                    stock.units -= patient.required_quantity
                     stock.save()
                 else:
                     return Response({"error": "Not enough stock"}, status=status.HTTP_400_BAD_REQUEST)
             elif status_value == "Rejected" and patient.status == "Accepted":
                 # Rollback if previously accepted
                 stock, _ = BloodStock.objects.get_or_create(blood_group=patient.blood_group)
-                stock.units += patient.quantity
+                stock.units += patient.required_quantity
                 stock.save()
 
         patient.status = status_value
